@@ -8,7 +8,7 @@ from app.validators.forms import ClientForm, UserEmailForm
 api = RedPrint('client')
 
 
-@api.route('/create', methods=['POST'])
+@api.route('/register', methods=['POST'])
 def create_client():
     data = request.json
     form = ClientForm(data=data)
@@ -18,13 +18,16 @@ def create_client():
             ClientTypeEnum.USER_EMAIL: __register_by_email
         }
         # type转为enums类型了
-        promise[form.data.type]()
-    return 'a user'
+        promise[form.type.data]()
+        return 'a user'
+    else:
+        print(form.errors)
+    return 'error'
 
 
 def __register_by_email():
     form = UserEmailForm(data=request.json)
-    if form.validata():
+    if form.validate():
         User.register_by_email(form.nickname.data,
                                form.account.data,
                                form.secret.data)

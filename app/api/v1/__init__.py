@@ -1,5 +1,5 @@
 from flask import Blueprint
-from app.api.v1 import book, user
+from app.api.v1 import book, user, client
 
 
 def register_redprint():
@@ -7,5 +7,6 @@ def register_redprint():
 
     book.api.register(bp_v1)
     user.api.register(bp_v1)
+    client.api.register(bp_v1)
 
     return bp_v1

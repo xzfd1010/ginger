@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from wtforms import Form
 from wtforms import StringField, IntegerField
 from wtforms.validators import DataRequired, Email, Regexp, length, ValidationError
 
@@ -7,7 +7,9 @@ from app.models.user import User
 
 
 class ClientForm(Form):
-    account = StringField(validators=[DataRequired(), length(min=5, max=32)])
+    account = StringField(validators=[DataRequired(message='不允许为空'), length(
+        min=5, max=32
+    )])
     secret = StringField()
     type = IntegerField(validators=[DataRequired()])
 

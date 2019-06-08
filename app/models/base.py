@@ -1,12 +1,3 @@
-"""
- Created by 七月 on 2018/5/11.
-"""
-
-__author__ = '七月'
-
-"""
- Created by 七月 on 2018-3-11.
-"""
 from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy, BaseQuery
