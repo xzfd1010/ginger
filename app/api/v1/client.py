@@ -1,6 +1,7 @@
 from flask import request
 
 from app.libs.enums import ClientTypeEnum
+from app.libs.error_code import ClientTypeError
 from app.libs.redprint import RedPrint
 from app.models.user import User
 from app.validators.forms import ClientForm, UserEmailForm
@@ -21,8 +22,7 @@ def create_client():
         promise[form.type.data]()
         return 'a user'
     else:
-        print(form.errors)
-    return 'error'
+        raise ClientTypeError()
 
 
 def __register_by_email():
