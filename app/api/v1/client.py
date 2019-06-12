@@ -13,16 +13,17 @@ api = RedPrint('client')
 def create_client():
     data = request.json
     form = ClientForm(data=data)
-    if form.validate():
-        # 个性化校验
-        promise = {
-            ClientTypeEnum.USER_EMAIL: __register_by_email
-        }
-        # type转为enums类型了
-        promise[form.type.data]()
-        return 'a user'
-    else:
-        raise ClientTypeError()
+    # if form.validate():
+    #     # 个性化校验
+    #     promise = {
+    #         ClientTypeEnum.USER_EMAIL: __register_by_email
+    #     }
+    #     # type转为enums类型了
+    #     promise[form.type.data]()
+    # else:
+    #     raise ClientTypeError()
+    form.validate_for_api()
+    return 'a user'
 
 
 def __register_by_email():
