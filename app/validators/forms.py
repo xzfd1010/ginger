@@ -22,9 +22,7 @@ class ClientForm(Form):
 
 
 class UserEmailForm(ClientForm):
-    account = StringField(validators=[
-        Email(message='invalidate email')
-    ])
+    account = StringField(validators=[Email(message='invalid email')])
     secret = StringField(validators=[
         DataRequired(),
         # password can only include letters , numbers and "_"
@@ -34,4 +32,4 @@ class UserEmailForm(ClientForm):
 
     def validate_account(self, value):
         if User.query.filter_by(email=value.data).first():
-            raise ValidationError()
+            raise ValidationError('重复')
