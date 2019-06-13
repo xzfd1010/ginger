@@ -31,6 +31,6 @@ def get_token():
 def generate_auth_token(uid, ac_type, scope=None, expiration=7200):
     s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
     return s.dumps({
-        'id': uid,
+        'uid': uid,
         'type': ac_type.value
     })
