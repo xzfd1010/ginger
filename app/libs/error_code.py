@@ -3,8 +3,13 @@ from app.libs.error import APIException
 
 class Success(APIException):
     code = 200
-    msg = 'success'
+    msg = 'ok'
     error_code = 0
+
+
+class DeleteSuccess(Success):
+    code = 202
+    error_code = 1
 
 
 class ClientTypeError(APIException):
