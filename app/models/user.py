@@ -39,7 +39,8 @@ class User(Base):
             return NotFound()
         if not user.check_password(secret):
             return AuthFailed()
-        return {'uid': user.id}
+        scope = 'SuperScope' if user.auth == 2 else 'UserScope'
+        return {'uid': user.id, 'scope': scope}
 
     def check_password(self, secret):
         if not secret:

@@ -40,3 +40,9 @@ class AuthFailed(APIException):
     code = 401
     msg = 'Unauthorized'
     error_code = 1009
+
+
+class Forbidden(APIException):
+    code = 403
+    error_code = 1004
+    msg = 'Forbidden'

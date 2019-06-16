@@ -12,7 +12,7 @@ api = RedPrint('user')
 @api.route('/<int:uid>', methods=['GET'])
 @auth.login_required
 def get_user(uid):
-    user = User.query.get_or_404(uid)
+    user = User.query.filter_by(id=uid).first_or_404()
     # 如何返回user？ 自定义JSONEncoder
     return jsonify(user)
 
@@ -21,6 +21,15 @@ def get_user(uid):
 @auth.login_required
 def delete_user():
     uid = g.user.uid
+    with db.auto_commit():
+        user = User.query.filter_by(id=uid).first_or_404()
+        user.delete()
+    return DeleteSuccess()
+
+
+@api.route('/<int:uid>', methods=['DELETE'])
+@auth.login_required
+def super_delete_user(uid):
     with db.auto_commit():
         user = User.query.filter_by(id=uid).first_or_404()
         user.delete()
