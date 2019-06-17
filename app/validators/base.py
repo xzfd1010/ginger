@@ -7,8 +7,10 @@ from app.libs.error_code import ParameterException
 class BaseForm(Form):
     def __init__(self, data=None):
         # 这里的data就是需要校验的数据
-        data = request.json
-        super(BaseForm, self).__init__(data=data)
+        data = request.get_json(silent=True)
+        args = request.args.to_dict()
+        print('args', args)
+        super(BaseForm, self).__init__(data=data, **args)
 
     def validate_for_api(self):
         valid = super(BaseForm, self).validate()  # 父类validate

@@ -63,5 +63,18 @@ class Base(db.Model):
     def delete(self):
         self.status = 0
 
+    def keys(self):
+        return self.fields
+
+    def hide(self, *fields):
+        for field in fields:
+            self.fields.remove(field)
+        return self
+
+    def append(self, *fields):
+        for field in fields:
+            self.fields.append(field)
+        return self
+
     def __getitem__(self, item):
         return getattr(self, item)
