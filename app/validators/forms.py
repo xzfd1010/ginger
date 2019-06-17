@@ -37,3 +37,7 @@ class UserEmailForm(ClientForm):
 
 class BookSearchForm(Form):
     q = StringField(validators=[DataRequired()])
+
+
+class TokenForm(Form):
+    token = StringField(validators=[DataRequired()])

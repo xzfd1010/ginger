@@ -1,11 +1,12 @@
 from app.libs.enums import ClientTypeEnum
+from app.libs.error_code import AuthFailed
 from app.libs.redprint import RedPrint
 from app.models.user import User
-from app.validators.forms import ClientForm
+from app.validators.forms import ClientForm, TokenForm
 
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired
 
-from flask import current_app as app, jsonify
+from flask import current_app as app, jsonify, current_app
 
 api = RedPrint('token')
 
@@ -41,3 +42,24 @@ def generate_auth_token(uid, ac_type, scope=None, expiration=7200):
         'type': ac_type.value,
         'scope': scope
     })
+
+
+@api.route('/secret', methods=['POST'])
+def get_token_info():
+    '''获取令牌信息'''
+    form = TokenForm().validate_for_api()
+    s = Serializer(current_app.config['SECRET_KEY'])
+    try:
+        data = s.loads(form.token.data, return_header=True)  # data {id:'',type:''}
+    except BadSignature:
+        raise AuthFailed(msg='token is invalid')
+    except SignatureExpired:
+        raise AuthFailed(msg='token is expired')
+    r = {
+        'scope': data[0]['scope'],
+        'create_at': data[1]['iat'],
+        'expire_in': data[1]['exp'],
+        'uid': data[0]['uid']
+    }
+
+    return jsonify(r)
