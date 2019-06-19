@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, SmallInteger
+from sqlalchemy import Column, Integer, String, SmallInteger, orm
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.libs.error_code import NotFound, AuthFailed
@@ -12,8 +12,12 @@ class User(Base):
     auth = Column(SmallInteger, default=1)
     _password = Column('password', String(100))
 
+    @orm.reconstructor
+    def init_on_loads(self):
+        self.fields = ['id', 'email', 'nickname', 'create_datetime']
+
     def keys(self):
-        return ['id', 'nickname', 'email', 'auth']
+        return self.fields
 
     @property
     def password(self):

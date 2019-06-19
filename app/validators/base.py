@@ -9,7 +9,6 @@ class BaseForm(Form):
         # 这里的data就是需要校验的数据
         data = request.get_json(silent=True)
         args = request.args.to_dict()
-        print('args', args)
         super(BaseForm, self).__init__(data=data, **args)
 
     def validate_for_api(self):

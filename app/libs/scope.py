@@ -36,7 +36,7 @@ def is_in_scope(scope, endpoint):
     # 这里的scope是一个字符串
     scope = globals()[scope]()
     # 添加module，定义endpoint形式为 v1.module_name + view_func，把v1.module_name当作一部分
-
+    # 角色 > 权限  角色 => 权限， user 接口 mentors/uid
     splits = endpoint.split('+')
     module_name = splits[0]
     if endpoint in scope.forbidden:

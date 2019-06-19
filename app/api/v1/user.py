@@ -14,6 +14,7 @@ api = RedPrint('user')
 def get_user(uid):
     user = User.query.filter_by(id=uid).first_or_404()
     # 如何返回user？ 自定义JSONEncoder
+    # user = user.hide('nickname')
     return jsonify(user)
 
 

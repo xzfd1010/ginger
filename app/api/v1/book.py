@@ -16,7 +16,6 @@ def get_book():
 @api.route('/search', methods=['GET', 'POST'])
 def search_book():
     form = BookSearchForm().validate_for_api()
-    print('form', form.data)
     q = form.q.data
     book = Book.query.filter(or_(Book.title.like(q), Book.publisher.like(q))).all()
     return jsonify(book)
